@@ -9,8 +9,6 @@ public class BrowserFactory {
         switch (browserName) {
             case "chromium":
                 return playwright.chromium();
-            case "webkit":
-                return playwright.webkit();
             case "firefox":
                 return playwright.firefox();
             default:

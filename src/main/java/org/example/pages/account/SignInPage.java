@@ -1,9 +1,10 @@
-package org.example.pages;
+package org.example.pages.account;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import org.example.pages.account.common.AccountBasePage;
 
-public class SignInPage extends BasePage {
+public class SignInPage extends AccountBasePage {
 
     private final Page page;
     private final Locator emailInput;
