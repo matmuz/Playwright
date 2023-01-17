@@ -1,4 +1,4 @@
-package base;
+package org.example.base;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
@@ -24,9 +24,10 @@ public abstract class BaseTest {
     private Browser browser;
     private BrowserContext context;
     private Page page;
-    private static Integer appStatusCode;
     protected LandingPage landingPage;
-    protected User user;
+
+    private static Integer appStatusCode;
+    protected static User user;
 
     @BeforeEach
     public void setUp() throws IOException {
