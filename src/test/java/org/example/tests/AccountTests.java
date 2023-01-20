@@ -3,28 +3,10 @@ package org.example.tests;
 import org.example.base.BaseTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class ShopTests extends BaseTest {
-
-    @Test
-    public void shouldDisplayShopLogo() {
-        assertTrue(landingPage.getTopMenuPage().getShopLogo().isVisible(),
-                   "Shop logo is not visible");
-    }
-
-    @Test
-    public void shouldDisplayFooterSection() {
-        assertTrue(landingPage.getFooterPage().getFooterSection().isVisible(),
-                   "Footer section is not visible");
-    }
-
-    @Test
-    public void shouldDisplayCorrectNumberOfPopularProducts() {
-        int expectedProducts = 8;
-        assertEquals(expectedProducts, landingPage.getProducts().size(),
-                     "The number of displayed popular products is not equal to expected");
-    }
+public class AccountTests extends BaseTest {
 
     @Test
     public void shouldDisplayCorrectUsernameAfterSignIn() {
@@ -56,13 +38,6 @@ public class ShopTests extends BaseTest {
                                                     .openInformationPage()
                                                     .getPageHeader(),
                      "Displayed page header is not equal to expected");
-    }
-
-    @Test
-    public void shouldOpenSpecificProduct() {
-        String product = "HUMMINGBIRD T-SHIRT";
-        assertEquals(product, landingPage.selectPopularProductByName(product).getProductName(),
-                     "Selected product's name is not equal to expected");
     }
 
     @Test

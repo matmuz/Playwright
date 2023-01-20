@@ -9,7 +9,7 @@ public abstract class BasePage {
 
     private final TopMenuPage topMenuPage;
     private final FooterPage footerPage;
-    protected final CommonHelper helper;
+    private final CommonHelper helper;
 
     public BasePage(Page page) {
         this.topMenuPage = new TopMenuPage(page);
