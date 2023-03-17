@@ -3,6 +3,7 @@ package org.example.tests;
 import org.example.base.BaseTest;
 import org.junit.jupiter.api.Test;
 
+import static org.example.pages.account.enums.AccountSections.INFORMATION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -25,28 +26,26 @@ public class AccountTests extends BaseTest {
                                .signIn(user.getEmail(), user.getPassword())
                                .getTopMenuPage()
                                .signOut()
-                               .isUsernameVisible(),
-                    "Logged in username is displayed, but should not be");
+                               .isUsernameVisible(), "Logged in username is displayed, but should not be");
     }
 
     @Test
-    public void shouldDisplayCorrectPageHeader() {
-        String expectedPageHeader = "Your personal information";
-        assertEquals(expectedPageHeader, landingPage.getTopMenuPage()
-                                                    .goToSignInSection()
-                                                    .signIn(user.getEmail(), user.getPassword())
-                                                    .openInformationPage()
-                                                    .getPageHeader(),
+    public void shouldDisplayCorrectInformationPageHeader() {
+        assertEquals(INFORMATION.getHeader(), landingPage.getTopMenuPage()
+                                                         .goToSignInSection()
+                                                         .signIn(user.getEmail(), user.getPassword())
+                                                         .openInformationPage()
+                                                         .getPageHeader(),
                      "Displayed page header is not equal to expected");
     }
 
     @Test
     public void shouldCheckSavedAddress() {
-        assertEquals(user.getMyAddress(), landingPage.getTopMenuPage()
-                                                     .goToSignInSection()
-                                                     .signIn(user.getEmail(), user.getPassword())
-                                                     .openAddressPage()
-                                                     .getAddressBody(),
+        assertEquals(user.getAddressDetailsAsList(), landingPage.getTopMenuPage()
+                                                                .goToSignInSection()
+                                                                .signIn(user.getEmail(), user.getPassword())
+                                                                .openAddressPage()
+                                                                .getAddressDetailsAsList(),
                      "Displayed user address is different than expected");
     }
 }

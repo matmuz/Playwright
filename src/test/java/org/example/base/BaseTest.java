@@ -1,59 +1,54 @@
 package org.example.base;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
 import lombok.extern.java.Log;
-import org.example.browser.BrowserFactory;
 import org.example.config.User;
 import org.example.pages.products.LandingPage;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
-import static org.example.browser.LaunchOptionsProvider.getLaunchOptions;
-import static org.example.browser.LaunchOptionsProvider.getPageOptions;
 import static org.example.config.ConfigurationRetriever.getConfiguration;
+import static org.example.constants.TestConstants.TRACES_DIR_PATH;
+import static org.example.constants.TestConstants.ZIP_EXTENSION;
 
 @Log
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseTest {
 
     private Playwright playwright;
     private Browser browser;
     private BrowserContext context;
-    private Page page;
     protected LandingPage landingPage;
 
-    private static Integer appStatusCode;
     protected static User user;
 
-    @BeforeEach
-    public void setUp() throws IOException {
+    @BeforeAll
+    public void launchBrowser() {
         playwright = Playwright.create();
-        if (getAppStatus() != 200) {
-            log.severe("App is not available - tests will not run");
-            System.exit(0);
-        }
-        browser = BrowserFactory.getBrowserType(playwright, getConfiguration().browser()).launch(getLaunchOptions());
-        context = browser.newContext();
-        page = browser.newPage(getPageOptions());
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(getConfiguration().headless()));
+    }
+
+    @BeforeEach
+    public void createContextAndPage() throws IOException {
+        playwright = Playwright.create();
+        context = browser.newContext(new Browser.NewContextOptions().setViewportSize(null));
+        context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSnapshots(true).setSources(false));
+        Page page = context.newPage();
         page.navigate(getConfiguration().appUrl());
         landingPage = new LandingPage(page);
         user = User.getUser();
     }
 
     @AfterEach
-    public void tearDown() {
+    public void closeContext(TestInfo testInfo) {
+        context.tracing().stop(new Tracing.StopOptions().setPath(Path.of(TRACES_DIR_PATH + testInfo.getDisplayName() + ZIP_EXTENSION)));
         context.close();
-        playwright.close();
     }
 
-    private int getAppStatus() {
-        if (appStatusCode == null) {
-            appStatusCode = playwright.request().newContext().get(getConfiguration().appUrl()).status();
-        }
-        return appStatusCode;
+    @AfterAll
+    public void closeBrowser() {
+        playwright.close();
     }
 }

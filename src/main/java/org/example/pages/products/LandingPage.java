@@ -2,8 +2,9 @@ package org.example.pages.products;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import org.example.pages.products.common.ProductsBasePage;
 
-public class LandingPage extends BaseProductsPage {
+public class LandingPage extends ProductsBasePage {
 
     private final Locator carouselItem;
 

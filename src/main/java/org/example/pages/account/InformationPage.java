@@ -1,9 +1,10 @@
 package org.example.pages.account;
 
 import com.microsoft.playwright.Page;
-import org.example.pages.account.common.AccountBasePage;
+import org.example.pages.account.common.AccountPage;
 
-public class InformationPage extends AccountBasePage {
+public class InformationPage extends AccountPage {
+
     public InformationPage(Page page) {
         super(page);
     }

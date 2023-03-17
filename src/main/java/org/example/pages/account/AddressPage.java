@@ -2,12 +2,11 @@ package org.example.pages.account;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import org.example.pages.account.common.AccountBasePage;
+import org.example.pages.account.common.AccountPage;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-public class AddressPage extends AccountBasePage {
+public class AddressPage extends AccountPage {
 
     private final Locator addressBody;
 
@@ -16,13 +15,23 @@ public class AddressPage extends AccountBasePage {
         addressBody = page.locator(".address-body address");
     }
 
-    public Map<String, String> getAddressBody() {
-        String[] addressDetails = addressBody.innerText().split("\n");
-        String[] postalCodeAndCity = addressDetails[2].split(" ");
-        Map<String, String> addressMap = new HashMap<>();
-        addressMap.put("address", addressDetails[1]);
-        addressMap.put("postalCode", postalCodeAndCity[0]);
-        addressMap.put("city", postalCodeAndCity[1]);
-        return addressMap;
+    public String getAddress() {
+        return splitAddressBody()[1];
+    }
+
+    public String getPostalCode() {
+        return splitAddressBody()[2].split(" ")[0];
+    }
+
+    public String getCity() {
+        return splitAddressBody()[2].split(" ")[1];
+    }
+
+    public List<String> getAddressDetailsAsList() {
+        return List.of(getAddress(), getPostalCode(), getCity());
+    }
+
+    private String[] splitAddressBody() {
+        return addressBody.innerText().split("\n");
     }
 }

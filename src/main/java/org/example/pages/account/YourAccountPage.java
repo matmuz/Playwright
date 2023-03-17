@@ -2,13 +2,12 @@ package org.example.pages.account;
 
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Page;
-import org.example.pages.account.common.AccountBasePage;
-import org.example.pages.account.enums.Sections;
+import org.example.pages.account.common.AccountPage;
+import org.example.pages.account.enums.AccountSections;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class YourAccountPage extends AccountBasePage {
+public class YourAccountPage extends AccountPage {
 
     private final Page page;
     private final List<ElementHandle> sections;
@@ -19,24 +18,33 @@ public class YourAccountPage extends AccountBasePage {
         this.sections = page.querySelectorAll(".link-item");
     }
 
-    public InformationPage openInformationPage() {
-        filterForSectionElement(Sections.INFORMATION).click();
-        return new InformationPage(page);
-    }
-
     public AddressPage openAddressPage() {
-        filterForSectionElement(Sections.ADDRESS).click();
+        clickOnSection(AccountSections.ADDRESS);
         return new AddressPage(page);
     }
 
-    private ElementHandle filterForSectionElement(Sections filteredSection) {
-        List<ElementHandle> sectionElement = sections.stream()
-                                                     .filter(section -> section.innerText()
-                                                                               .contains(filteredSection.getName()))
-                                                     .collect(Collectors.toList());
-        if (sectionElement.size() != 1) {
-            throw new IllegalStateException("Found more than one section via selected filter");
-        }
-        return sectionElement.get(0);
+    public InformationPage openInformationPage() {
+        clickOnSection(AccountSections.INFORMATION);
+        return new InformationPage(page);
+    }
+
+    public OrderHistoryPage openOrderHistoryPage() {
+        clickOnSection(AccountSections.HISTORY);
+        return new OrderHistoryPage(page);
+    }
+
+    public CreditSlipsPage openCreditSlipsPage() {
+        clickOnSection(AccountSections.SLIPS);
+        return new CreditSlipsPage(page);
+    }
+
+    public PersonalDataPage openPersonalDataPage() {
+        clickOnSection(AccountSections.GDPR);
+        return new PersonalDataPage(page);
+    }
+
+    private void clickOnSection(AccountSections filteredSection) {
+        sections.stream().filter(section -> section.innerText().contains(filteredSection.getName()))
+                .collect(getHelper().toSingleton()).click();
     }
 }
