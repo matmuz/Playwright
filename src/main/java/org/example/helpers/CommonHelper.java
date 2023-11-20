@@ -1,5 +1,7 @@
 package org.example.helpers;
 
+import com.github.javafaker.Faker;
+
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collector;
@@ -7,11 +9,8 @@ import java.util.stream.Collectors;
 
 public class CommonHelper {
 
-    private final Random random;
-
-    public CommonHelper() {
-        this.random = new Random();
-    }
+    public static final Random random = new Random();
+    public static final Faker faker = new Faker();
 
     public <T> T getRandomElementFromList(List<T> list) {
         return list.get(random.nextInt(list.size()));

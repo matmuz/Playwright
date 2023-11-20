@@ -27,7 +27,7 @@ public class ContactUsTests extends BaseTest {
     public void shouldSendHelpMessage(String message, String filePath, ContactUsSubjects subject) {
         assertTrue(landingPage.getTopMenuPage()
                               .goToContactUsPage()
-                              .composeHelpMessage(subject, user.getEmail(), filePath, message, true)
+                              .composeHelpMessage(subject, randomUser.getEmail(), filePath, message, true)
                               .isSuccessMessageDisplayed(), "Message sent successfully was not displayed");
     }
 

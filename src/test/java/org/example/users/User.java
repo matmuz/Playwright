@@ -1,4 +1,4 @@
-package org.example.config;
+package org.example.users;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class User {
     private String password;
     private Map<String, String> myAddress;
 
-    private static final String USER_FILE_PATH = "src/main/resources/user.json";
+    private static final String USER_FILE_PATH = "src/test/resources/user.json";
     private static User user;
 
     public static User getUser() throws IOException {
