@@ -5,6 +5,6 @@ import com.microsoft.playwright.Browser;
 public class ContextOptionsFactory {
 
     public static Browser.NewContextOptions getContextOptions() {
-        return new Browser.NewContextOptions().setViewportSize(null);
+        return new Browser.NewContextOptions().setViewportSize(1920, 1080);
     }
 }
